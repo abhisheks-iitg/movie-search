@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviesearch
+  labels:
+    app: moviesearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moviesearch
+  template:
+    metadata:
+      labels:
+        app: moviesearch
+    spec:
+      containers:
+        - name: moviesearch
+          image: boyiit/moviesearch:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
