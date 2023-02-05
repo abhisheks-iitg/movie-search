@@ -45,7 +45,7 @@ public class ApplicationConfig {
 
         return restClient;
     }
-    
+
 
     @Bean
     public ElasticsearchTransport getElasticsearchTransport() {
