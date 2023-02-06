@@ -10,11 +10,15 @@ class SearchManager:
     """
     Search Manager Abstraction for search functionality
     """
+
+
     def __init__(self):
-        self.es = Elasticsearch(application_config.get_search_server(),
+        self.es = Elasticsearch(application_config.get_search_server())
+        self.doc_type = "_doc"
+        """                     ,
                                 verify_certs=application_config.is_cert_validated(),
                                 http_auth=(
-                                application_config.get_search_user(), application_config.get_search_password()))
+                                application_config.get_search_user(), application_config.get_search_password())"""
 
     def index(self, index_name, id, doc):
         """
@@ -24,7 +28,7 @@ class SearchManager:
         :param doc:
         :return:
         """
-        return self.es.index(index=index_name, id=id, document=doc)
+        return self.es.index(index=index_name, doc_type=self.doc_type, id=id, body=doc)
 
     def refresh(self, index_name):
         """
@@ -41,7 +45,7 @@ class SearchManager:
         :param body:
         :return:
         """
-        return self.es.search(index=index_name, body=body)
+        return self.es.search(index=index_name, doc_type=self.doc_type, body=body)
 
     def delete_index(self, index_name, id_field):
         """
@@ -51,6 +55,6 @@ class SearchManager:
         :return:
         """
         try:
-            self.es.delete(index=index_name, id=id_field)
+            self.es.delete(index=index_name, doc_type=self.doc_type, id=id_field)
         except ValueError:
             logger.error("Failed to delete index entry for {id_field} id document")

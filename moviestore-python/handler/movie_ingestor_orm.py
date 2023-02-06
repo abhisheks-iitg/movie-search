@@ -29,7 +29,7 @@ def lambda_handler(event, context):
             movie = db_manager.update_record(file_data, movie_list[0])
             search_manager.delete_index(application_config.get_system_index(), movie_list[0].id)
             search_manager.index(application_config.get_system_index(), movie.id,
-                                 {'title': movie.title, 'year': movie.year, 'cast': movie.casts,
+                                 {'title': movie.title, 'year': movie.year, 'casts': movie.casts,
                                   'genres': movie.genres})
 
     else:

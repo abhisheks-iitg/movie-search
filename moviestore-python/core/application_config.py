@@ -7,7 +7,7 @@ Centralized Configuration Sub-System for the Application
 
 @staticmethod
 def get_search_server():
-    return 'https://localhost:9200'
+    return 'http://127.0.0.1:9999' #'http://elasticsearch:9200'
 
 
 @staticmethod
@@ -27,7 +27,7 @@ def get_search_password():
 
 @staticmethod
 def get_db_url():
-    return 'postgresql://postgres:postgres@localhost/moviedb'
+    return 'postgresql://postgres:postgres@127.0.0.1:5555/moviedb'
 
 
 @staticmethod

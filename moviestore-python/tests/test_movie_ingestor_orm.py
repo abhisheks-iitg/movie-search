@@ -1,5 +1,6 @@
 from handler.movie_ingestor_orm import lambda_handler
 
+"""
 lambda_handler({
       "detail": {
         "bucket": {
@@ -11,7 +12,7 @@ lambda_handler({
         }
       }}, None)
 """
-for i in range(1000, 1000000):
+for i in range(1, 500):
     lambda_handler({
       "detail": {
         "bucket": {
@@ -22,5 +23,3 @@ for i in range(1000, 1000000):
           "size": 105
         }
       }}, None)
-    
-"""
