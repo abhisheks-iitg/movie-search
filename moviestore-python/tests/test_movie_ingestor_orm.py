@@ -1,4 +1,4 @@
-from handler.movie_ingestor_orm import lambda_handler
+from handler.movie_ingestor import lambda_handler
 
 """
 lambda_handler({
