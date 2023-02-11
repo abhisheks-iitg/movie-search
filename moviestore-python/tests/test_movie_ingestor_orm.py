@@ -9,10 +9,10 @@ lambda_handler({
         "object": {
          "key": "test.json",
           "size": 105
-        }
+        }    
       }}, None)
 """
-for i in range(1, 500):
+for i in range(1, 2):
     lambda_handler({
       "detail": {
         "bucket": {
@@ -23,3 +23,6 @@ for i in range(1, 500):
           "size": 105
         }
       }}, None)
+    if i % 10 == 0:
+        print(f" Consumed {i}")
+    i = i+1

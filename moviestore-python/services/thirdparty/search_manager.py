@@ -20,15 +20,15 @@ class SearchManager:
                                 http_auth=(
                                 application_config.get_search_user(), application_config.get_search_password())"""
 
-    def index(self, index_name, id, doc):
+    def index(self, index_name, _id, doc):
         """
         Index the following document with id into the index_name
         :param index_name:
-        :param id:
+        :param _id:
         :param doc:
         :return:
         """
-        return self.es.index(index=index_name, doc_type=self.doc_type, id=id, body=doc)
+        return self.es.index(index=index_name, doc_type=self.doc_type, id=_id, body=doc)
 
     def refresh(self, index_name):
         """

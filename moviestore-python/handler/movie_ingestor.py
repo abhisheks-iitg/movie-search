@@ -19,19 +19,26 @@ def lambda_handler(event, context):
     key = event['detail']['object']['key']
     file_data = s3_manager.get_file_content(bucket, key)
 
-    movie_list = db_manager.fetch_by_query(file_data)
+    if is_invalid_event(file_data):
+        # enqueue into the Error Queue
+        return
 
-    if movie_list:
-        if len(movie_list) > 1:
-            # Work to merge these entries together.
-            raise ValueError("multiple entries found that matches title and year as well as part of cast and genres")
-        else:
-            movie = db_manager.update_record(file_data, movie_list[0])
-            search_manager.delete_index(application_config.get_system_index(), movie_list[0].id)
-            search_manager.index(application_config.get_system_index(), movie.id,
-                                 {'title': movie.title, 'year': movie.year, 'casts': movie.casts,
-                                  'genres': movie.genres})
+    result_size, _id, movie = db_manager.upsert_orm(file_data)
 
+    if result_size == 0:
+        search_manager.index(application_config.get_system_index(), _id, file_data)
     else:
-        movie_id = db_manager.create_movie(file_data)
-        search_manager.index(application_config.get_system_index(), movie_id, file_data)
+        search_manager.delete_index(application_config.get_system_index(), _id)
+        search_manager.index(application_config.get_system_index(), _id,
+                             {'title': movie.title, 'year': movie.year, 'cast': movie.casts,
+                              'genres': movie.genres})
+
+
+def is_invalid_event(file_data):
+    """
+    Function to check and confirm if this is an invalid Event
+    :param file_data:
+    :return:
+    """
+    # result = False if year is not a number and title, casts and genre are not alphabets.
+    return False
